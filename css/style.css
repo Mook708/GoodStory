@@ -1,0 +1,131 @@
+/* --- 全局與色彩設定 --- */
+:root {
+    --bg-color: #FDF8F0;
+    --text-color: #4A4441;
+    --primary-color: #7A828A;
+    --accent-color: #C04848;
+    --hover-color: #F7B54A;
+    --card-bg: #FFFFFF;
+    --shadow-color: rgba(0, 0, 0, 0.08);
+    --nav-height: 80px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.8;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    padding-top: var(--nav-height);
+    font-size: 18px;
+}
+
+h1, h2, h3 { text-align: center; margin-bottom: 25px; }
+h2 { font-size: 2.2rem; font-weight: 700; color: var(--accent-color); }
+h3 { font-weight: 700; font-size: 1.4rem; }
+p { font-size: 1.1rem; }
+
+/* --- 頂部導覽 Banner --- */
+nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px var(--shadow-color); z-index: 1000; transition: all 0.3s ease-in-out; }
+.nav-container { max-width: 1200px; height: 100%; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+.logo-container { display: flex; align-items: center; text-decoration: none; color: var(--text-color); font-size: 1.4rem; font-weight: 700; }
+.logo-container img { height: 50px; margin-right: 12px; transition: height 0.3s ease-in-out; }
+.nav-links { display: flex; list-style: none; margin: 0; padding: 0; gap: 35px; }
+.nav-links a { text-decoration: none; color: var(--text-color); font-weight: 600; font-size: 1.1rem; position: relative; padding: 5px 0; }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--accent-color); transition: width 0.3s; }
+.nav-links a:hover::after { width: 100%; }
+.nav-actions { display: flex; align-items: center; gap: 20px; }
+
+/* 【已調整】IG 圖示與按鈕大小 */
+.social-icon img {
+    height: 38px; /* 加大 IG 圖示 */
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    vertical-align: middle; /* 幫助垂直對齊 */
+}
+.social-icon:hover img { opacity: 1; }
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 20px; /* 縮小按鈕 padding */
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem; /* 縮小按鈕字體 */
+    transition: background-color 0.3s;
+}
+.btn-primary:hover { background-color: var(--hover-color); color: var(--text-color); }
+
+nav.nav-scrolled { height: 65px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); }
+nav.nav-scrolled .logo-container img { height: 45px; }
+
+/* --- 頁面主視覺橫幅 --- */
+header { background-color: var(--primary-color); color: #FFFFFF; padding: 4.5rem 1rem; text-align: center; }
+header h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
+header h2 { font-size: 1.4rem; font-weight: normal; color: #EFEFEF; }
+
+main { padding: 20px; }
+section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
+
+/* --- 作品介紹/亮點的排版樣式 --- */
+.container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+
+/* 【已調整】圖文比例 55% / 45% */
+.container img {
+    flex: 1.22; /* 約 55% */
+    min-width: 300px;
+    border-radius: 10px;
+    max-width: 100%;
+}
+
+.text-content {
+    flex: 1; /* 約 45% */
+    min-width: 300px;
+}
+
+/* --- 圖片輪播 --- */
+.carousel-container { position: relative; max-width: 900px; margin: auto; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); aspect-ratio: 16 / 9; }
+.carousel-slide { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
+.carousel-slide img { width: 100%; height: 100%; flex-shrink: 0; object-fit: cover; }
+.prev-btn, .next-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.4); color: white; border: none; padding: 10px 15px; cursor: pointer; border-radius: 50%; font-size: 1.5rem; }
+.prev-btn { left: 15px; }
+.next-btn { right: 15px; }
+.dots-container { position: absolute; bottom: 15px; width: 100%; text-align: center; }
+.dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.6); margin: 0 6px; cursor: pointer; transition: background-color 0.3s; }
+.dot.active { background-color: var(--accent-color); }
+
+/* --- 音樂卡片 --- */
+.music-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+.music-card { background: var(--card-bg); border: 1px solid #eee; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
+.music-info .music-icon { font-size: 2.8rem; }
+.music-info h3 { margin: 15px 0; }
+.music-info p { color: #777; margin-bottom: 20px; font-size: 1rem; }
+.play-pause-btn { background-color: var(--accent-color); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 25px; transition: background-color 0.3s; font-size: 1rem; }
+.play-pause-btn:hover { background-color: var(--hover-color); color: var(--text-color); }
+
+/* --- 團隊介紹 --- */
+.team-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+.team-member { background: var(--card-bg); padding: 30px; text-align: center; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); width: 260px; }
+.team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-color); margin-bottom: 20px; }
+.team-member p { margin: 8px 0; }
+
+/* --- 頁尾 --- */
+footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--primary-color); color: #EFEFEF; font-size: 1rem; }
+
+/* --- 響應式設計 (手機版) --- */
+@media (max-width: 768px) {
+    body { padding-top: 65px; font-size: 16px; }
+    .nav-links, .social-icon { display: none; }
+    .nav-container { padding: 0 15px; }
+    .logo-container span { font-size: 1.2rem; }
+    .btn-primary { padding: 10px 18px; font-size: 0.9rem; }
+    header { padding: 3.5rem 1rem; }
+    header h1 { font-size: 2.8rem; }
+    header h2 { font-size: 1.2rem; }
+    .container { flex-direction: column; }
+    #introduction .container { flex-direction: column-reverse; }
+    .music-container { grid-template-columns: 1fr; }
+    p { font-size: 1.05rem; }
+}

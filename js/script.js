@@ -1,57 +1,96 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Carousel
-    const slide = document.querySelector('.carousel-slide');
-    const images = document.querySelectorAll('.carousel-slide img');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const dotsContainer = document.querySelector('.dots-container');
 
-    let counter = 0;
-    const size = images[0].clientWidth;
-
-    slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
-
-    // Dots
-    images.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.classList.add('dot');
-        if (i === 0) dot.classList.add('active');
-        dot.addEventListener('click', () => {
-            counter = i;
-            updateCarousel();
-        });
-        dotsContainer.appendChild(dot);
-    });
-    const dots = document.querySelectorAll('.dot');
-
-    function updateCarousel() {
-        slide.style.transition = "transform 0.5s ease-in-out";
-        slide.style.transform = 'translateX(' + (-size * counter) + 'px)';
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === counter);
+    // --- 新增：導覽列滾動效果 ---
+    const nav = document.querySelector('nav');
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.classList.add('nav-scrolled');
+            } else {
+                nav.classList.remove('nav-scrolled');
+            }
         });
     }
 
-    nextBtn.addEventListener('click', () => {
-        if (counter >= images.length - 1) counter = -1;
-        counter++;
-        updateCarousel();
-    });
+    // --- 輪播圖功能 (已修復 Bug) ---
+    const carouselContainer = document.querySelector('.carousel-container');
+    const slide = document.querySelector('.carousel-slide');
+    const images = document.querySelectorAll('.carousel-slide img');
+    
+    if (images.length > 0) {
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const dotsContainer = document.querySelector('.dots-container');
 
-    prevBtn.addEventListener('click', () => {
-        if (counter <= 0) counter = images.length;
-        counter--;
-        updateCarousel();
-    });
+        let counter = 0;
+        let slideWidth = carouselContainer.clientWidth;
+        let autoPlayInterval;
 
-    setInterval(() => {
-        if (counter >= images.length - 1) counter = -1;
-        counter++;
-        updateCarousel();
-    }, 5000); // Auto-play every 5 seconds
+        for (let i = 0; i < images.length; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => {
+                counter = i;
+                updateCarousel();
+                resetAutoPlay(); // 點擊後重置自動播放計時器
+            });
+            dotsContainer.appendChild(dot);
+        }
+        const dots = document.querySelectorAll('.dot');
 
-    // Music Player
+        function updateCarousel() {
+            slide.style.transition = "transform 0.5s ease-in-out";
+            slide.style.transform = `translateX(${-slideWidth * counter}px)`;
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === counter);
+            });
+        }
+
+        function nextSlide() {
+            counter = (counter + 1) % images.length;
+            updateCarousel();
+        }
+
+        function prevSlide() {
+            counter = (counter - 1 + images.length) % images.length;
+            updateCarousel();
+        }
+
+        nextBtn.addEventListener('click', () => {
+            nextSlide();
+            resetAutoPlay();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 3500); // 直接調用 nextSlide 函數
+        }
+
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+        
+        carouselContainer.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+        carouselContainer.addEventListener('mouseleave', startAutoPlay);
+        
+        window.addEventListener('resize', () => {
+            slideWidth = carouselContainer.clientWidth;
+            slide.style.transition = "none";
+            slide.style.transform = `translateX(${-slideWidth * counter}px)`;
+        });
+
+        updateCarousel();
+        startAutoPlay();
+    }
+
+    // --- 音樂播放器功能 ---
     const playPauseBtns = document.querySelectorAll('.play-pause-btn');
+    let currentlyPlaying = null;
 
     playPauseBtns.forEach(btn => {
         const songId = btn.getAttribute('data-song');
@@ -59,12 +98,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         btn.addEventListener('click', () => {
             if (song.paused) {
+                if (currentlyPlaying && currentlyPlaying !== song) {
+                    currentlyPlaying.pause();
+                    document.querySelector(`[data-song="${currentlyPlaying.id}"]`).textContent = '播放';
+                }
                 song.play();
                 btn.textContent = '暫停';
+                currentlyPlaying = song;
             } else {
                 song.pause();
                 btn.textContent = '播放';
+                currentlyPlaying = null;
             }
+
+            song.onended = () => {
+                btn.textContent = '播放';
+                currentlyPlaying = null;
+            };
         });
     });
 });
