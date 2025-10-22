@@ -10,6 +10,10 @@
     --nav-height: 80px;
 }
 
+html {
+    scroll-behavior: smooth; /* 讓錨點連結跳轉有平滑動畫 */
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "Roboto", "Helvetica Neue", Arial, sans-serif;
     line-height: 1.8;
@@ -36,30 +40,64 @@ nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
 .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--accent-color); transition: width 0.3s; }
 .nav-links a:hover::after { width: 100%; }
 .nav-actions { display: flex; align-items: center; gap: 20px; }
-
-/* 【已調整】IG 圖示與按鈕大小 */
-.social-icon img {
-    height: 38px; /* 加大 IG 圖示 */
-    opacity: 0.7;
-    transition: opacity 0.3s;
-    vertical-align: middle; /* 幫助垂直對齊 */
-}
+.social-icon img { height: 38px; opacity: 0.7; transition: opacity 0.3s; vertical-align: middle; }
 .social-icon:hover img { opacity: 1; }
-
-.btn-primary {
-    background-color: var(--accent-color);
-    color: white;
-    padding: 10px 20px; /* 縮小按鈕 padding */
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem; /* 縮小按鈕字體 */
-    transition: background-color 0.3s;
-}
+.btn-primary { background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: background-color 0.3s; }
 .btn-primary:hover { background-color: var(--hover-color); color: var(--text-color); }
-
 nav.nav-scrolled { height: 65px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); }
 nav.nav-scrolled .logo-container img { height: 45px; }
+
+/* --- 新增：漢堡選單 --- */
+.hamburger-menu {
+    display: none; /* 電腦版隱藏 */
+    cursor: pointer;
+}
+.hamburger-menu .bar {
+    width: 28px;
+    height: 3px;
+    background-color: var(--text-color);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* --- 新增：手機版彈出選單 --- */
+.mobile-nav-links {
+    position: fixed;
+    top: var(--nav-height); /* 從導覽列下方開始 */
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+    background-color: rgba(253, 248, 240, 0.98);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    transform: translateY(-110%); /* 預設完全隱藏在螢幕上方 */
+    transition: transform 0.4s ease-in-out;
+    z-index: 999;
+}
+.mobile-nav-links.active {
+    transform: translateY(0); /* 當有 .active class 時，滑入畫面 */
+}
+.mobile-nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* 漢堡選單打開時的動畫 */
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
 
 /* --- 頁面主視覺橫幅 --- */
 header { background-color: var(--primary-color); color: #FFFFFF; padding: 4.5rem 1rem; text-align: center; }
@@ -68,9 +106,13 @@ header h2 { font-size: 1.4rem; font-weight: normal; color: #EFEFEF; }
 
 main { padding: 20px; }
 section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
+.container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.container img { flex: 1.22; min-width: 300px; border-radius: 10px; max-width: 100%; }
+.text-content { flex: 1; min-width: 300px; }
 
 /* --- 作品介紹/亮點的排版樣式 --- */
 .container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+
 
 /* 【已調整】圖文比例 55% / 45% */
 .container img {
@@ -80,10 +122,12 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
     max-width: 100%;
 }
 
+
 .text-content {
     flex: 1; /* 約 45% */
     min-width: 300px;
 }
+
 
 /* --- 圖片輪播 --- */
 .carousel-container { position: relative; max-width: 900px; margin: auto; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); aspect-ratio: 16 / 9; }
@@ -96,6 +140,7 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.6); margin: 0 6px; cursor: pointer; transition: background-color 0.3s; }
 .dot.active { background-color: var(--accent-color); }
 
+
 /* --- 音樂卡片 --- */
 .music-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
 .music-card { background: var(--card-bg); border: 1px solid #eee; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
@@ -105,11 +150,13 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .play-pause-btn { background-color: var(--accent-color); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 25px; transition: background-color 0.3s; font-size: 1rem; }
 .play-pause-btn:hover { background-color: var(--hover-color); color: var(--text-color); }
 
+
 /* --- 團隊介紹 --- */
 .team-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 .team-member { background: var(--card-bg); padding: 30px; text-align: center; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); width: 260px; }
 .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-color); margin-bottom: 20px; }
 .team-member p { margin: 8px 0; }
+
 
 /* --- 頁尾 --- */
 footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--primary-color); color: #EFEFEF; font-size: 1rem; }
@@ -117,15 +164,30 @@ footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--
 /* --- 響應式設計 (手機版) --- */
 @media (max-width: 768px) {
     body { padding-top: 65px; font-size: 16px; }
-    .nav-links, .social-icon { display: none; }
+    
+    /* 調整導覽列在手機上的高度 */
+    nav, nav.nav-scrolled { height: 65px; }
+    
+    .nav-links { display: none; } /* 隱藏電腦版文字連結 */
+    .hamburger-menu { display: block; } /* 顯示漢堡圖示 */
+
     .nav-container { padding: 0 15px; }
     .logo-container span { font-size: 1.2rem; }
     .btn-primary { padding: 10px 18px; font-size: 0.9rem; }
+    
+    /* 調整手機版彈出選單的起始位置 */
+    .mobile-nav-links { top: 65px; height: calc(100vh - 65px); }
+
     header { padding: 3.5rem 1rem; }
-    header h1 { font-size: 2.8rem; }
-    header h2 { font-size: 1.2rem; }
+    header h1 { font-size: 2.5rem; }
+    header h2 { font-size: 1.1rem; }
+    
+    section { padding-top: 40px; margin-bottom: 60px; }
+
     .container { flex-direction: column; }
     #introduction .container { flex-direction: column-reverse; }
     .music-container { grid-template-columns: 1fr; }
     p { font-size: 1.05rem; }
+    h2 { font-size: 1.8rem; }
+    h3 { font-size: 1.3rem; }
 }
