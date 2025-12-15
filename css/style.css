@@ -8,6 +8,8 @@
     --card-bg: #FFFFFF;
     --shadow-color: rgba(0, 0, 0, 0.08);
     --nav-height: 80px;
+    --pixel-border-color: #4A4441;
+    --pixel-shadow-color: #E3B44B;
 }
 
 html {
@@ -30,7 +32,7 @@ h2 { font-size: 2.2rem; font-weight: 700; color: var(--accent-color); }
 h3 { font-weight: 700; font-size: 1.4rem; }
 p { font-size: 1.1rem; }
 
-/* --- 頂部導覽 Banner --- */
+/* --- 頂部導覽 Banner (維持不變) --- */
 nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px var(--shadow-color); z-index: 1000; transition: all 0.3s ease-in-out; }
 .nav-container { max-width: 1200px; height: 100%; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
 .logo-container { display: flex; align-items: center; text-decoration: none; color: var(--text-color); font-size: 1.4rem; font-weight: 700; }
@@ -42,12 +44,10 @@ nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
 .nav-actions { display: flex; align-items: center; gap: 20px; }
 .social-icon img { height: 38px; opacity: 0.7; transition: opacity 0.3s; vertical-align: middle; }
 .social-icon:hover img { opacity: 1; }
-.btn-primary { background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: background-color 0.3s; }
-.btn-primary:hover { background-color: var(--hover-color); color: var(--text-color); }
 nav.nav-scrolled { height: 65px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); }
 nav.nav-scrolled .logo-container img { height: 45px; }
 
-/* --- 漢堡選單 --- */
+/* --- 漢堡選單 (維持不變) --- */
 .hamburger-menu { display: none; cursor: pointer; }
 .hamburger-menu .bar { width: 28px; height: 3px; background-color: var(--text-color); margin: 5px 0; transition: all 0.3s ease; }
 .mobile-nav-links { position: fixed; top: var(--nav-height); left: 0; width: 100%; height: calc(100vh - var(--nav-height)); background-color: rgba(253, 248, 240, 0.98); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; transform: translateY(-110%); transition: transform 0.4s ease-in-out; z-index: 999; }
@@ -57,18 +57,93 @@ nav.nav-scrolled .logo-container img { height: 45px; }
 .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
 .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* --- 頁面主視覺橫幅 --- */
-header { background-color: var(--primary-color); color: #FFFFFF; padding: 4.5rem 1rem; text-align: center; }
-header h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); }
-header h2 { font-size: 1.4rem; font-weight: normal; color: #EFEFEF; }
+/* ---【已更新】頁面主視覺橫幅 --- */
+header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../圖片/主視覺圖.png');
+    background-size: cover;
+    background-position: center;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    padding: 50px 0;
+    min-height: 60vh;
+}
 
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 100px; /* 【已加大】增加兩欄之間的間距 */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px; /* 增加左右 padding */
+    flex-wrap: wrap; /* 【已新增】允許在空間不足時換行 */
+}
+
+/* 【已更新】影片和文字欄的 flex 屬性 */
+.header-video {
+    flex: 1 1 500px; /* flex-grow, flex-shrink, flex-basis */
+    min-width: 320px; /* 設定最小寬度，防止過度擠壓 */
+}
+
+.header-text {
+    flex: 1 1 400px;
+}
+
+.header-text h1, .header-text h2 {
+    text-align: left;
+}
+
+.header-text h1 {
+    font-size: 3.0rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.header-text h2 {
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: #EFEFEF;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* --- YouTube 影片與像素外框樣式 (維持不變) --- */
+.pixel-frame-container {
+    background-color: white;
+    border: 10px solid var(--pixel-border-color);
+    padding: 15px;
+    width: 100%;
+    box-shadow: 8px 8px 0 0 var(--pixel-shadow-color);
+}
+.video-aspect-ratio-box {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+}
+.video-aspect-ratio-box iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- 發光按鈕 (維持不變) --- */
+.btn-primary { background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: none; position: relative; animation: glow 2.5s infinite ease-in-out; transition: background-color 0.3s, box-shadow 0.3s; }
+.btn-primary:hover { animation: none; background-color: var(--hover-color); color: var(--text-color); box-shadow: 0 0 25px var(--hover-color); }
+@keyframes glow { 0% { box-shadow: 0 0 5px var(--accent-color); } 50% { box-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color); } 100% { box-shadow: 0 0 5px var(--accent-color); } }
+
+/* --- 後續內容區塊 (維持不變) --- */
 main { padding: 20px; }
 section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
 .container img { flex: 1.22; min-width: 300px; border-radius: 10px; max-width: 100%; }
 .text-content { flex: 1; min-width: 300px; }
 
-/* --- 圖片輪播 --- */
+/* --- 圖片輪播 (維持不變) --- */
 .carousel-container { position: relative; max-width: 900px; margin: auto; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); aspect-ratio: 16 / 9; }
 .carousel-slide { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
 .carousel-slide img { width: 100%; height: 100%; flex-shrink: 0; object-fit: cover; }
@@ -79,7 +154,7 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.6); margin: 0 6px; cursor: pointer; transition: background-color 0.3s; }
 .dot.active { background-color: var(--accent-color); }
 
-/* --- 音樂卡片 --- */
+/* --- 音樂卡片 (維持不變) --- */
 .music-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
 .music-card { background: var(--card-bg); border: 1px solid #eee; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
 .music-info .music-icon { font-size: 2.8rem; }
@@ -88,16 +163,26 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .play-pause-btn { background-color: var(--accent-color); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 25px; transition: background-color 0.3s; font-size: 1rem; }
 .play-pause-btn:hover { background-color: var(--hover-color); color: var(--text-color); }
 
-/* --- 團隊介紹 --- */
+/* --- 團隊介紹 (維持不變) --- */
 .team-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 .team-member { background: var(--card-bg); padding: 30px; text-align: center; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); width: 260px; }
 .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-color); margin-bottom: 20px; }
 .team-member p { margin: 8px 0; }
 
-/* --- 頁尾 --- */
+/* --- 頁尾 (維持不變) --- */
 footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--primary-color); color: #EFEFEF; font-size: 1rem; }
 
 /* --- 響應式設計 (手機版) --- */
+@media (max-width: 992px) { /* 【已調整】在中等螢幕尺寸就開始換行 */
+    .header-container {
+        flex-direction: column; /* 垂直堆疊 */
+        gap: 40px;
+    }
+    .header-text h1, .header-text h2 {
+        text-align: center; /* 改回置中 */
+    }
+}
+
 @media (max-width: 768px) {
     body { padding-top: 65px; font-size: 16px; }
     nav, nav.nav-scrolled { height: 65px; }
@@ -107,21 +192,18 @@ footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--
     .logo-container span { font-size: 1.2rem; }
     .btn-primary { padding: 10px 18px; font-size: 0.9rem; }
     .mobile-nav-links { top: 65px; height: calc(100vh - 65px); }
-    header { padding: 3.5rem 1rem; }
-    header h1 { font-size: 2.5rem; }
-    header h2 { font-size: 1.1rem; }
-    section { padding-top: 40px; margin-bottom: 60px; }
-
-    .carousel-container { aspect-ratio: 16 / 9; /* 維持輪播圖的橫向比例 */ }
-
-    .container { flex-direction: column; }
     
-    /* 【已修復】防止作品介紹/亮點的圖片在手機上變形 */
-    .container img {
-        flex: none; /* 關鍵！不要讓圖片參與 flex 高度分配 */
-        width: 100%; /* 讓圖片寬度充滿容器 */
-    }
+    header { padding: 40px 0; min-height: auto; }
+    /* .header-container 的換行邏輯已移至 992px */
+    .header-text h1 { font-size: 2.5rem; }
+    .header-text h2 { font-size: 1.1rem; }
 
+    .pixel-frame-container { border-width: 8px; padding: 10px; box-shadow: 6px 6px 0 0 var(--pixel-shadow-color); }
+
+    section { padding-top: 40px; margin-bottom: 60px; }
+    .carousel-container { aspect-ratio: 16 / 9; }
+    .container { flex-direction: column; }
+    .container img { flex: none; width: 100%; }
     #introduction .container { flex-direction: column-reverse; }
     .music-container { grid-template-columns: 1fr; }
     p { font-size: 1.05rem; }
