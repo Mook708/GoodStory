@@ -32,6 +32,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // --- 新增：空點游標效果 ---
+    const htmlEl = document.documentElement; // 獲取 <html> 元素
+
+    // 監聽整個文件的 mousedown 事件 (比 click 更即時)
+    document.addEventListener('mousedown', function(event) {
+        
+        // 檢查被點擊的元素是不是我們定義的可互動元素
+        // .closest() 會檢查自身以及所有父元素，非常可靠
+        const interactiveElement = event.target.closest('a, button, .dot, .prev-btn, .next-btn');
+
+        // 如果點擊的不是可互動元素 (即點在空白處)
+        if (!interactiveElement) {
+            // 1. 立刻為 <html> 添加 class，顯示「空點」游標
+            htmlEl.classList.add('empty-click-cursor');
+
+            // 2. 設定一個短暫的計時器 (例如 200 毫秒)
+            setTimeout(function() {
+                // 3. 時間到後，移除 class，讓游標恢復正常
+                htmlEl.classList.remove('empty-click-cursor');
+            }, 200); // 您可以調整這個時間長短，單位是毫秒
+        }
+    });
+
+
     // --- 輪播圖功能 ---
     // ... (您的輪播圖 JS 程式碼維持不變) ...
 
