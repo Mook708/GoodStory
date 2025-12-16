@@ -111,47 +111,16 @@
         </section>
 
 
+        <!-- 【已更新】遊戲音樂 Section -->
         <section id="music">
             <h2>遊戲音樂</h2>
-            <!-- 已更新音樂資訊 -->
-            <div class="music-container">
-                <div class="music-card">
-                    <div class="music-info">
-                        <span class="music-icon">🎵</span>
-                        <h3>夢落屋簷</h3>
-                        <p>學會擁抱孤獨，也擁抱自己。</p>
-                    </div>
-                    <audio id="song1" src="audio/夢落屋簷.mp3"></audio>
-                    <button class="play-pause-btn" data-song="song1">播放</button>
+            <div class="music-carousel-container">
+                <div class="music-carousel-track">
+                    <!-- JS 會在這裡動態生成 Slide -->
                 </div>
-                <div class="music-card">
-                    <div class="music-info">
-                        <span class="music-icon">🎵</span>
-                        <h3>林木之中</h3>
-                        <p>靜謐的森林，帶來片刻的安寧。</p>
-                    </div>
-                    <audio id="song2" src="audio/林木之中.mp3"></audio>
-                    <button class="play-pause-btn" data-song="song2">播放</button>
-                </div>
-                <div class="music-card">
-                    <div class="music-info">
-                        <span class="music-icon">🎵</span>
-                        <h3>心中迴響</h3>
-                        <p>與自我對話，聆聽最深的聲音。</p>
-                    </div>
-                    <audio id="song3" src="audio/心中迴響.mp3"></audio>
-                    <button class="play-pause-btn" data-song="song3">播放</button>
-                </div>
-                <div class="music-card">
-                    <div class="music-info">
-                        <span class="music-icon">🎵</span>
-                        <h3>迷霧之中</h3>
-                        <p>獨自徘徊，尋找內心的方向。</p>
-                    </div>
-                    <audio id="song4" src="audio/迷霧之中.mp3"></audio>
-                    <button class="play-pause-btn" data-song="song4">播放</button>
-                </div>
+                <!-- 已移除左右控制按鈕 -->
             </div>
+            <audio id="music-player"></audio>
         </section>
 
 

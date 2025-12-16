@@ -7,7 +7,7 @@
     --hover-color: #F7B54A;
     --card-bg: #FFFFFF;
     --shadow-color: rgba(0, 0, 0, 0.08);
-    --nav-height: 80px;
+    --nav-height: 100px;
     --pixel-border-color: #4A4441;
     --pixel-shadow-color: #E3B44B;
 }
@@ -32,7 +32,7 @@ h2 { font-size: 2.2rem; font-weight: 700; color: var(--accent-color); }
 h3 { font-weight: 700; font-size: 1.4rem; }
 p { font-size: 1.1rem; }
 
-/* --- 頂部導覽 Banner (維持不變) --- */
+/* --- 頂部導覽 Banner --- */
 nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); background-color: rgba(255, 255, 255, 0.95); box-shadow: 0 2px 10px var(--shadow-color); z-index: 1000; transition: all 0.3s ease-in-out; }
 .nav-container { max-width: 1200px; height: 100%; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
 .logo-container { display: flex; align-items: center; text-decoration: none; color: var(--text-color); font-size: 1.4rem; font-weight: 700; }
@@ -44,10 +44,10 @@ nav { position: fixed; top: 0; left: 0; width: 100%; height: var(--nav-height); 
 .nav-actions { display: flex; align-items: center; gap: 20px; }
 .social-icon img { height: 38px; opacity: 0.7; transition: opacity 0.3s; vertical-align: middle; }
 .social-icon:hover img { opacity: 1; }
-nav.nav-scrolled { height: 65px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); }
+nav.nav-scrolled { height: 75px; background-color: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px); }
 nav.nav-scrolled .logo-container img { height: 45px; }
 
-/* --- 漢堡選單 (維持不變) --- */
+/* --- 漢堡選單 --- */
 .hamburger-menu { display: none; cursor: pointer; }
 .hamburger-menu .bar { width: 28px; height: 3px; background-color: var(--text-color); margin: 5px 0; transition: all 0.3s ease; }
 .mobile-nav-links { position: fixed; top: var(--nav-height); left: 0; width: 100%; height: calc(100vh - var(--nav-height)); background-color: rgba(253, 248, 240, 0.98); backdrop-filter: blur(5px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; transform: translateY(-110%); transition: transform 0.4s ease-in-out; z-index: 999; }
@@ -57,7 +57,7 @@ nav.nav-scrolled .logo-container img { height: 45px; }
 .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
 .hamburger-menu.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* ---【已更新】頁面主視覺橫幅 --- */
+/* --- 頁面主視覺橫幅 --- */
 header {
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/主視覺圖.png');
     background-size: cover;
@@ -68,40 +68,33 @@ header {
     padding: 50px 0;
     min-height: 60vh;
 }
-
 .header-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 100px; /* 【已加大】增加兩欄之間的間距 */
+    gap: 100px;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 30px; /* 增加左右 padding */
-    flex-wrap: wrap; /* 【已新增】允許在空間不足時換行 */
+    padding: 0 30px;
+    flex-wrap: wrap;
 }
-
-/* 【已更新】影片和文字欄的 flex 屬性 */
 .header-video {
-    flex: 1 1 500px; /* flex-grow, flex-shrink, flex-basis */
-    min-width: 320px; /* 設定最小寬度，防止過度擠壓 */
+    flex: 1 1 500px;
+    min-width: 320px;
 }
-
 .header-text {
     flex: 1 1 400px;
 }
-
 .header-text h1, .header-text h2 {
     text-align: left;
 }
-
 .header-text h1 {
-    font-size: 3.1rem;
+    font-size: 3.2rem;
     font-weight: 800;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
 }
-
 .header-text h2 {
     font-size: 1.4rem;
     font-weight: normal;
@@ -109,7 +102,7 @@ header {
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
 }
 
-/* --- YouTube 影片與像素外框樣式 (維持不變) --- */
+/* --- YouTube 影片與像素外框樣式 --- */
 .pixel-frame-container {
     background-color: white;
     border: 10px solid var(--pixel-border-color);
@@ -120,7 +113,7 @@ header {
 .video-aspect-ratio-box {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 */
+    padding-top: 56.25%;
 }
 .video-aspect-ratio-box iframe {
     position: absolute;
@@ -131,19 +124,17 @@ header {
     border: none;
 }
 
-/* --- 發光按鈕 (維持不變) --- */
+/* --- 發光按鈕 --- */
 .btn-primary { background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: none; position: relative; animation: glow 2.5s infinite ease-in-out; transition: background-color 0.3s, box-shadow 0.3s; }
 .btn-primary:hover { animation: none; background-color: var(--hover-color); color: var(--text-color); box-shadow: 0 0 25px var(--hover-color); }
-@keyframes glow { 0% { box-shadow: 0 0 5px var(--accent-color); } 50% { box-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color); } 100% { box-shadow: 0 0 5px var(--accent-color); } }
 
-/* --- 後續內容區塊 (維持不變) --- */
 main { padding: 20px; }
 section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .container { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
 .container img { flex: 1.22; min-width: 300px; border-radius: 10px; max-width: 100%; }
 .text-content { flex: 1; min-width: 300px; }
 
-/* --- images輪播 (維持不變) --- */
+/* --- 圖片輪播 --- */
 .carousel-container { position: relative; max-width: 900px; margin: auto; overflow: hidden; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); aspect-ratio: 16 / 9; }
 .carousel-slide { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
 .carousel-slide img { width: 100%; height: 100%; flex-shrink: 0; object-fit: cover; }
@@ -154,32 +145,70 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.6); margin: 0 6px; cursor: pointer; transition: background-color 0.3s; }
 .dot.active { background-color: var(--accent-color); }
 
-/* --- 音樂卡片 (維持不變) --- */
-.music-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-.music-card { background: var(--card-bg); border: 1px solid #eee; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); text-align: center; display: flex; flex-direction: column; justify-content: space-between; }
-.music-info .music-icon { font-size: 2.8rem; }
-.music-info h3 { margin: 15px 0; }
-.music-info p { color: #777; margin-bottom: 20px; font-size: 1rem; }
-.play-pause-btn { background-color: var(--accent-color); color: white; border: none; padding: 12px 24px; cursor: pointer; border-radius: 25px; transition: background-color 0.3s; font-size: 1rem; }
-.play-pause-btn:hover { background-color: var(--hover-color); color: var(--text-color); }
+/* ---【已更新】遊戲音樂輪播 --- */
+#music {
+    padding-bottom: 50px;
+    max-width: 100%;
+}
+.music-carousel-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+}
+.music-carousel-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 恢復 transition */
+}
+.music-slide {
+    position: relative;
+    flex-shrink: 0;
+    width: 800px;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    transform: scale(0.8);
+    opacity: 0.6;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    /* 已移除 cursor: pointer; 以便自訂游標生效 */
+}
+.music-slide.active {
+    transform: scale(1.1);
+    opacity: 1;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+.music-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* .music-carousel-btn 樣式已被移除 */
 
-/* --- 團隊介紹 (維持不變) --- */
+
+/* --- 團隊介紹 --- */
 .team-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 .team-member { background: var(--card-bg); padding: 30px; text-align: center; border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); width: 260px; }
 .team-member img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--accent-color); margin-bottom: 20px; }
 .team-member p { margin: 8px 0; }
 
-/* --- 頁尾 (維持不變) --- */
+/* --- 頁尾 --- */
 footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--primary-color); color: #EFEFEF; font-size: 1rem; }
 
 /* --- 響應式設計 (手機版) --- */
-@media (max-width: 992px) { /* 【已調整】在中等螢幕尺寸就開始換行 */
+@media (max-width: 992px) {
     .header-container {
-        flex-direction: column; /* 垂直堆疊 */
+        flex-direction: column;
         gap: 40px;
     }
     .header-text h1, .header-text h2 {
-        text-align: center; /* 改回置中 */
+        text-align: center;
     }
 }
 
@@ -194,7 +223,6 @@ footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--
     .mobile-nav-links { top: 65px; height: calc(100vh - 65px); }
     
     header { padding: 40px 0; min-height: auto; }
-    /* .header-container 的換行邏輯已移至 992px */
     .header-text h1 { font-size: 2.5rem; }
     .header-text h2 { font-size: 1.1rem; }
 
@@ -205,52 +233,43 @@ footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--
     .container { flex-direction: column; }
     .container img { flex: none; width: 100%; }
     #introduction .container { flex-direction: column-reverse; }
-    .music-container { grid-template-columns: 1fr; }
     p { font-size: 1.05rem; }
     h2 { font-size: 1.8rem; }
     h3 { font-size: 1.3rem; }
+    
+    .music-carousel-container { height: 200px; }
+    .music-slide { width: 280px; }
 }
 
-/* --- 自訂像素游標樣式 --- */
+/* --- 發光按鈕的動畫定義 --- */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px var(--accent-color); }
+  50% { box-shadow: 0 0 20px var(--accent-color), 0 0 30px var(--accent-color); }
+  100% { box-shadow: 0 0 5px var(--accent-color); }
+}
 
-/* 1. 設定整個網頁的預設游標 (常態) */
+/* ---【已更新】自訂像素游標樣式 --- */
 html {
-    /* 
-     * url(...) 指向您的箭頭圖檔。
-     * '../images/' 的意思是從 css 資料夾往上一層，再進入 images 資料夾。
-     * auto 是備用選項，如果images載入失敗，就顯示瀏覽器預設的箭頭。
-     */
     cursor: url('../images/cursor-arrow.png'), auto;
 }
-
-/* 2. 設定所有可點擊元素的游標樣式 */
-/* 這邊列出了所有連結、按鈕、輪播圖控制項等 */
+html.empty-click-cursor {
+    cursor: url('../images/cursor-empty-click.png'), auto !important;
+}
+/* 將 .music-slide 加入到可點擊元素列表 */
 a,
 button,
 .dot,
 .prev-btn,
-.next-btn {
-    /* 當滑鼠「移動到」這些元素上時，顯示手指圖案 */
+.next-btn,
+.music-slide {
     cursor: url('../images/cursor-pointer.png'), pointer;
 }
-
-/* 3. 設定「點擊下去」那一瞬間的游標樣式 */
+/* 將 .music-slide 加入到 active 列表 */
 a:active,
 button:active,
 .dot:active,
 .prev-btn:active,
-.next-btn:active {
-    /* 當滑鼠在元素上「按下去不放」時，顯示點擊圖案 */
+.next-btn:active,
+.music-slide:active {
     cursor: url('../images/cursor-click.png'), pointer;
-}
-
-/* --- 新增：滑鼠空點時的游標樣式 --- */
-
-/* 
- * 當 <html> 標籤被 JS 加上 .empty-click-cursor 這個 class 時，
- * 就強制將游標換成「空點」圖案。
- * !important 是為了確保這個樣式的優先級最高，能覆蓋掉預設的箭頭游標。
- */
-html.empty-click-cursor {
-    cursor: url('../images/cursor-empty-click.png'), auto !important;
 }
