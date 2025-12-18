@@ -145,11 +145,58 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
 .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.6); margin: 0 6px; cursor: pointer; transition: background-color 0.3s; }
 .dot.active { background-color: var(--accent-color); }
 
-/* ---【已更新】遊戲音樂輪播 --- */
+/* ---【已更新】遊戲音樂區塊 --- */
 #music {
     padding-bottom: 50px;
     max-width: 100%;
 }
+.music-header {
+    display: grid; /* 使用 Grid 佈局 */
+    justify-items: center; /* 關鍵！讓所有網格項目水平置中 */
+    gap: 15px;
+    margin-bottom: -10px;
+}
+.music-header h2 {
+    margin-bottom: 0;
+}
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.volume-icon { font-size: 1.5rem; }
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 150px;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+input[type="range"]:hover {
+    opacity: 1;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
 .music-carousel-container {
     position: relative;
     width: 100%;
@@ -164,7 +211,7 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
     display: flex;
     align-items: center;
     gap: 40px;
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* 恢復 transition */
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .music-slide {
     position: relative;
@@ -177,7 +224,6 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
     transform: scale(0.8);
     opacity: 0.6;
     transition: transform 0.5s ease, opacity 0.5s ease;
-    /* 已移除 cursor: pointer; 以便自訂游標生效 */
 }
 .music-slide.active {
     transform: scale(1.1);
@@ -189,7 +235,6 @@ section { max-width: 1100px; margin: 0 auto 80px auto; padding: 60px 20px 0; }
     height: 100%;
     object-fit: cover;
 }
-/* .music-carousel-btn 樣式已被移除 */
 
 
 /* --- 團隊介紹 --- */
@@ -237,8 +282,32 @@ footer { text-align: center; padding: 25px; margin-top: 40px; background: var(--
     h2 { font-size: 1.8rem; }
     h3 { font-size: 1.3rem; }
     
-    .music-carousel-container { height: 200px; }
-    .music-slide { width: 280px; }
+    .music-carousel-container {
+        height: 400px;
+        overflow-x: scroll; /* 【已新增】啟用水平滾動 */
+        scroll-snap-type: x mandatory; /* 【已新增】設定為強制水平吸附 */
+        -webkit-overflow-scrolling: touch; /* 讓滑動在 iOS 上更流暢 */
+        scrollbar-width: none; /* 隱藏 Firefox 的滾動條 */
+    }
+    .music-carousel-container::-webkit-scrollbar {
+        display: none; /* 隱藏 Chrome/Safari 的滾動條 */
+    }
+
+    .music-carousel-track {
+        position: relative; /* 【已修改】改為相對定位，讓原生滾動生效 */
+        /* 【已新增】關鍵的 padding，讓第一張和最後一張可以置中 */
+        /* calc(50% - (手機卡片寬度 / 2)) */
+        padding: 0 calc(50% - 280px / 2);
+    }
+    
+    .music-slide {
+        width: 280px; /* 手機版卡片寬度調整 */
+        transform: scale(0.7);
+        scroll-snap-align: center; /* 【已新增】讓每張卡片都對齊中心點 */
+    }
+    .music-slide.active {
+        transform: scale(1);
+    }
 }
 
 /* --- 發光按鈕的動畫定義 --- */

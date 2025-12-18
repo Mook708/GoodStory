@@ -113,12 +113,18 @@
 
         <!-- 【已更新】遊戲音樂 Section -->
         <section id="music">
-            <h2>遊戲音樂</h2>
+            <div class="music-header">
+                <h2>遊戲音樂</h2>
+                <!-- 新增：音量控制滑桿 -->
+                <div class="volume-control">
+                    <span class="volume-icon">🔊</span>
+                    <input type="range" id="volume-slider" min="0" max="100" value="75">
+                </div>
+            </div>
             <div class="music-carousel-container">
                 <div class="music-carousel-track">
                     <!-- JS 會在這裡動態生成 Slide -->
                 </div>
-                <!-- 已移除左右控制按鈕 -->
             </div>
             <audio id="music-player"></audio>
         </section>

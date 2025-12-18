@@ -106,12 +106,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // --- 【已更新】遊戲音樂輪播功能 (增加延遲觸發) ---
+    // --- 【已更新】遊戲音樂輪播功能 ---
+    const musicSection = document.getElementById('music'); // 【已新增】選取整個 music section
     const musicContainer = document.querySelector('.music-carousel-container');
-    if (musicContainer) {
+    
+    if (musicSection && musicContainer) { // 確保兩個元素都存在
         const track = musicContainer.querySelector('.music-carousel-track');
         const audioPlayer = document.getElementById('music-player');
+        const volumeSlider = document.getElementById('volume-slider');
 
+        // 音量控制邏輯 (維持不變)
+        if (audioPlayer && volumeSlider) {
+            audioPlayer.volume = volumeSlider.value / 100;
+            volumeSlider.addEventListener('input', (e) => {
+                audioPlayer.volume = e.target.value / 100;
+            });
+        }
+        
         const musicData = [
             { imgSrc: 'images/音樂圖1.png', audioSrc: 'audio/1.mp3' },
             { imgSrc: 'images/音樂圖2.png', audioSrc: 'audio/2.mp3' },
@@ -131,59 +142,108 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         const slides = Array.from(track.children);
-        let hoverTimer = null; // 新增：用於存放計時器 ID
+        const isMobile = window.innerWidth <= 768;
 
-        const updateCarousel = (targetIndex, playAudio) => {
-            const targetSlide = slides[targetIndex];
-            const containerRect = musicContainer.getBoundingClientRect();
-            
-            const offset = (containerRect.width / 2) - (targetSlide.offsetWidth / 2) - targetSlide.offsetLeft;
-            track.style.transform = `translateX(${offset}px)`;
+        if (!isMobile) {
+            // --- 桌面版：滑鼠懸停邏輯 ---
+            let hoverTimer = null;
+
+            const updateCarousel = (targetIndex, playAudio) => {
+                const targetSlide = slides[targetIndex];
+                const containerRect = musicContainer.getBoundingClientRect();
+                const offset = (containerRect.width / 2) - (targetSlide.offsetWidth / 2) - targetSlide.offsetLeft;
+                track.style.transform = `translateX(${offset}px)`;
+
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === targetIndex);
+                });
+
+                if (playAudio) {
+                    const audioSrc = targetSlide.dataset.audioSrc;
+                    if (!audioPlayer.src.endsWith(audioSrc) || audioPlayer.paused) {
+                        audioPlayer.src = audioSrc;
+                        audioPlayer.play().catch(error => {});
+                    }
+                }
+            };
 
             slides.forEach((slide, index) => {
-                slide.classList.toggle('active', index === targetIndex);
+                slide.addEventListener('mouseenter', () => {
+                    clearTimeout(hoverTimer);
+                    hoverTimer = setTimeout(() => {
+                        updateCarousel(index, true);
+                    }, 500);
+                });
+                slide.addEventListener('mouseleave', () => {
+                    clearTimeout(hoverTimer);
+                });
             });
 
-            if (playAudio) {
-                const audioSrc = targetSlide.dataset.audioSrc;
-                if (!audioPlayer.src.endsWith(audioSrc) || audioPlayer.paused) {
-                    audioPlayer.src = audioSrc;
-                    audioPlayer.play().catch(error => console.log("Audio play was interrupted:", error));
+            // 【已修改】將 mouseleave 事件綁定到整個 section
+            musicSection.addEventListener('mouseleave', () => {
+                if (audioPlayer) audioPlayer.pause();
+                clearTimeout(hoverTimer);
+            });
+
+            const initialIndex = Math.floor(slides.length / 2);
+            setTimeout(() => updateCarousel(initialIndex, false), 100);
+
+        } else {
+            // --- 手機版：滑動觸發邏輯 ---
+            let currentIndex = -1;
+            let scrollTimeout = null;
+
+            const updateActiveSlide = (newIndex) => { // 【已修改】移除 playAudio 參數
+                if (newIndex === currentIndex) return;
+                currentIndex = newIndex;
+
+                slides.forEach((slide, index) => {
+                    slide.classList.toggle('active', index === newIndex);
+                });
+
+                // 【已修改】只要中心卡片更新，就直接播放音樂
+                const activeSlide = slides[newIndex];
+                if (activeSlide) {
+                    const audioSrc = activeSlide.dataset.audioSrc;
+                    // 只有當來源不同時才重新設定 src 並播放，避免中斷
+                    if (!audioPlayer.src.endsWith(audioSrc)) {
+                        audioPlayer.src = audioSrc;
+                        audioPlayer.play().catch(error => {});
+                    } else if (audioPlayer.paused) {
+                        // 如果來源相同但已暫停，也重新播放
+                        audioPlayer.play().catch(error => {});
+                    }
                 }
-            }
-        };
+            };
 
-        slides.forEach((slide, index) => {
-            // 當滑鼠移入時，啟動計時器
-            slide.addEventListener('mouseenter', () => {
-                // 先清除可能存在的舊計時器，防止快速滑過時觸發多次
-                clearTimeout(hoverTimer);
-                
-                // 設定一個新的計時器，1.5秒後觸發
-                hoverTimer = setTimeout(() => {
-                    updateCarousel(index, true);
-                }, 500); // 1500 毫秒 = 1.5 秒
+            musicContainer.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const containerCenter = musicContainer.scrollLeft + musicContainer.offsetWidth / 2;
+                    let closestIndex = 0;
+                    let minDistance = Infinity;
+
+                    slides.forEach((slide, index) => {
+                        const slideCenter = slide.offsetLeft - track.offsetLeft + slide.offsetWidth / 2;
+                        const distance = Math.abs(containerCenter - slideCenter);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestIndex = index;
+                        }
+                    });
+                    
+                    updateActiveSlide(closestIndex); // 【已修改】直接調用，不傳第二個參數
+
+                }, 150);
             });
 
-            // 當滑鼠移出時，取消計時器
-            slide.addEventListener('mouseleave', () => {
-                clearTimeout(hoverTimer);
-            });
-        });
-
-        musicContainer.addEventListener('mouseleave', () => {
-            if (audioPlayer) {
-                audioPlayer.pause();
-            }
-            // 同時清除計時器，以防滑鼠從卡片快速移出容器
-            clearTimeout(hoverTimer);
-
-        });
-
-        // 初始載入時，設定到中間位置，但不播放音樂
-        const initialIndex = Math.floor(slides.length / 2);
-        setTimeout(() => {
-            updateCarousel(initialIndex, false);
-        }, 100);
+            // 初始載入
+            const initialIndex = Math.floor(slides.length / 2);
+            setTimeout(() => {
+                const initialOffset = slides[initialIndex].offsetLeft + (slides[initialIndex].offsetWidth / 2) - (musicContainer.offsetWidth / 2);
+                musicContainer.scrollTo({ left: initialOffset });
+                updateActiveSlide(initialIndex);
+            }, 100);
+        }
     }
 });
